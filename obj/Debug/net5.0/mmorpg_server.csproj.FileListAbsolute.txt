@@ -1,0 +1,5 @@
+D:\Projects\mmorpg_server\obj\Debug\net5.0\mmorpg_server.csprojAssemblyReference.cache
+D:\Projects\mmorpg_server\obj\Debug\net5.0\mmorpg_server.GeneratedMSBuildEditorConfig.editorconfig
+D:\Projects\mmorpg_server\obj\Debug\net5.0\mmorpg_server.AssemblyInfoInputs.cache
+D:\Projects\mmorpg_server\obj\Debug\net5.0\mmorpg_server.AssemblyInfo.cs
+D:\Projects\mmorpg_server\obj\Debug\net5.0\mmorpg_server.csproj.CoreCompileInputs.cache

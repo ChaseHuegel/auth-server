@@ -1,0 +1,13 @@
+D:\Projects\mmorpg_server\obj\Debug\netcoreapp3.1\mmorpg_server.csprojAssemblyReference.cache
+D:\Projects\mmorpg_server\obj\Debug\netcoreapp3.1\mmorpg_server.AssemblyInfoInputs.cache
+D:\Projects\mmorpg_server\obj\Debug\netcoreapp3.1\mmorpg_server.AssemblyInfo.cs
+D:\Projects\mmorpg_server\obj\Debug\netcoreapp3.1\mmorpg_server.csproj.CoreCompileInputs.cache
+D:\Projects\mmorpg_server\bin\Debug\netcoreapp3.1\mmorpg_server.exe
+D:\Projects\mmorpg_server\bin\Debug\netcoreapp3.1\mmorpg_server.deps.json
+D:\Projects\mmorpg_server\bin\Debug\netcoreapp3.1\mmorpg_server.runtimeconfig.json
+D:\Projects\mmorpg_server\bin\Debug\netcoreapp3.1\mmorpg_server.runtimeconfig.dev.json
+D:\Projects\mmorpg_server\bin\Debug\netcoreapp3.1\mmorpg_server.dll
+D:\Projects\mmorpg_server\bin\Debug\netcoreapp3.1\mmorpg_server.pdb
+D:\Projects\mmorpg_server\obj\Debug\netcoreapp3.1\mmorpg_server.dll
+D:\Projects\mmorpg_server\obj\Debug\netcoreapp3.1\mmorpg_server.pdb
+D:\Projects\mmorpg_server\obj\Debug\netcoreapp3.1\mmorpg_server.genruntimeconfig.cache
