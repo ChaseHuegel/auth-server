@@ -15,7 +15,8 @@ namespace mmorpg_server
         private int id;
         private NetworkStream stream;
         private byte[] receiveBuffer;
-        private ByteMessage receivePacket;
+        private Packet receivePacket;
+        private int receivePacketSize;
 
         public TcpConnection(int id)
         {
@@ -47,7 +48,7 @@ namespace mmorpg_server
             //  Start reading data
             stream = Socket.GetStream();
             receiveBuffer = new byte[DATA_BUFFER_SIZE];
-            receivePacket = new ByteMessage();
+            receivePacket = new Packet();
 
             stream.BeginRead(receiveBuffer, 0, DATA_BUFFER_SIZE, OnReceive, null);
 
@@ -112,22 +113,37 @@ namespace mmorpg_server
                 byte[] data = new byte[DATA_BUFFER_SIZE];
                 Array.Copy(receiveBuffer, data, length);
 
-                receivePacket.SetMessage(data);
-                int packetID = receivePacket.ReadInt();
-                int senderID = receivePacket.ReadInt();
+                receivePacket.Append(data);
 
-                if (VerifyClient(senderID))
+                //  If we are waiting for a packet, get the next packet's size in bytes
+                if (receivePacket.Length >= 4 && receivePacketSize == 0)
+                    receivePacketSize = receivePacket.ResetReader().ReadInt();
+
+                //  Read the packet if it is complete
+                if (receivePacket.Length >= receivePacketSize)
                 {
-                    //  TODO check for a complete packet
-                    Server.PacketHandler handler = Server.GetPacketHandler(packetID);
-                    if (handler != null)
-                        handler.Invoke(id, receivePacket);
+                    //  Pull the packet from the received packet buffer
+                    Packet packet = receivePacket.Grab(4, receivePacketSize);
+
+                    int packetID = packet.ReadInt();
+                    int senderID = packet.ReadInt();
+
+                    if (VerifyClient(senderID))
+                    {
+                        Server.PacketHandler handler = Server.GetPacketHandler(packetID);
+                        if (handler != null)
+                            handler.Invoke(id, packet);
+                        else
+                            Console.WriteLine($"Received unknown packet [{packetID}] from client [{senderID}]");
+                    }
                     else
-                        Console.WriteLine($"Received unknown packet [{packetID}] from client [{senderID}]");
-                }
-                else
-                {
-                    Console.WriteLine($"Unable to verify packet! Receiver ID [{id}] mismatch sender ID [{senderID}]. Discarding packet.");
+                    {
+                        Console.WriteLine($"Unable to verify packet! Receiver ID [{id}] mismatch sender ID [{senderID}]. Discarding packet.");
+                    }
+
+                    //  Reset to begin collecting the next packet
+                    receivePacket.Reset();
+                    receivePacketSize = 0;
                 }
 
                 //  Continue reading data

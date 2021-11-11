@@ -17,9 +17,9 @@ namespace mmorpg_server
 
         private static List<Entity> entities;
 
-        public delegate void PacketHandler(int clientID, ByteMessage packet);
+        public delegate void PacketHandler(int clientID, Packet packet);
         private static Dictionary<int, PacketHandler> packetHandlers;
-        private static ConcurrentQueue<ByteMessage> packets = new ConcurrentQueue<ByteMessage>();
+        private static ConcurrentQueue<Packet> packets = new ConcurrentQueue<Packet>();
 
         public static PacketHandler GetPacketHandler(int id) => packetHandlers.ContainsKey(id) ? packetHandlers[id] : null;
 

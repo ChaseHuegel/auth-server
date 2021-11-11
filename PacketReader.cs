@@ -5,12 +5,12 @@ namespace mmorpg_server
 {
     public class PacketReader
     {
-        public static void Handshake(int clientID, ByteMessage packet)
+        public static void Handshake(int clientID, Packet packet)
         {
             Console.WriteLine($"Handshake success! Client [{clientID}] says: {packet.ReadString()}");
         }
 
-        public static void RegisterAttempt(int clientID, ByteMessage packet)
+        public static void RegisterAttempt(int clientID, Packet packet)
         {
             string username = packet.ReadString();
             string password = packet.ReadString();
@@ -49,7 +49,7 @@ namespace mmorpg_server
             }
         }
 
-        public static void LoginAttempt(int clientID, ByteMessage packet)
+        public static void LoginAttempt(int clientID, Packet packet)
         {
             string username = packet.ReadString();
             string password = packet.ReadString();
@@ -70,7 +70,7 @@ namespace mmorpg_server
             }
         }
 
-        public static void JoinAttempt(int clientID, ByteMessage packet)
+        public static void JoinAttempt(int clientID, Packet packet)
         {
             string guid = packet.ReadString();
 
@@ -97,7 +97,7 @@ namespace mmorpg_server
             }
         }
 
-        public static void PlayerPosition(int clientID, ByteMessage packet)
+        public static void PlayerPosition(int clientID, Packet packet)
         {
             //  ! This is BAD very BAD only for testing purposes
             //  TODO should not use client authed positions! server will eventually take auth over this
