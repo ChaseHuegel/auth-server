@@ -4,6 +4,7 @@ using System.Text;
 
 public class Packet
 {
+    /// <returns>instance of <typeparamref name="Packet"/> </returns>
     public static Packet Create() => new Packet();
 
     public int Length => data.Count;
@@ -12,16 +13,59 @@ public class Packet
     private int readIndex = 0;
     private List<byte> data = new List<byte>();
 
-    public Packet() { }
+    /// <summary>
+    /// Creates a <typeparamref name="Packet"/> from a <typeparamref name="byte"/> array
+    /// </summary>
+    /// <param name="data"></param>
     public Packet(byte[] data) => Append(data);
 
-    //  TODO may need to store data as an array the old fashion way
-    //  if overhead/garbage are issues when handling large amounts of packets
+    public Packet() { }
+
+    /// <returns>new <typeparamref name="byte"/> array from the data in <paramref name="this"/></returns>
     public byte[] GetBytes() => data.ToArray();
+
+    /// <returns>new <typeparamref name="byte"/> array with size <paramref name="length"/>
+    ///     from the data in <paramref name="this"/> starting at <paramref name="index"/></returns>
     public byte[] GetBytes(int index, int length) => data.GetRange(index, length).ToArray();
 
+    /// <returns>new <typeparamref name="Packet"/> with size <paramref name="length"/>
+    ///     from the data in <paramref name="this"/> starting at <paramref name="index"/></returns>
     public Packet Grab(int index, int length) => new Packet(GetBytes(index, length));
 
+    /// <summary>
+    /// Removes the first 4 bytes at the start of the packet to undo a Pack() call
+    /// </summary>
+    /// <returns>builder for <see cref="Packet"/></returns>
+    public Packet Unpack() { data.RemoveRange(0, 4); return this; }
+
+    /// <summary>
+    /// Resets the reading index to the start of this Packet
+    /// </summary>
+    /// <returns>builder for <see cref="Packet"/></returns>
+    public Packet ResetReader() { readIndex = 0; return this; }
+
+    /// <summary>
+    /// Delete all data and reset the reader
+    /// </summary>
+    /// <returns>builder for <see cref="Packet"/></returns>
+    public Packet Reset() { ResetReader(); data.Clear(); return this; }
+
+    /// <summary>
+    /// Append a <typeparamref name="byte"/> array to the end of the packet
+    /// </summary>
+    /// <returns>builder for <see cref="Packet"/></returns>
+    public Packet Append(byte[] bytes) { data.AddRange(bytes); return this; }
+
+    /// <summary>
+    /// Sets the data of the packet to a <typeparamref name="byte"/> array
+    /// </summary>
+    /// <returns>builder for <see cref="Packet"/></returns>
+    public Packet Assign(byte[] bytes) { Reset(); Append(bytes); return this; }
+
+    /// <summary>
+    /// Inserts the <typeparamref name="Packet"/> length at the start of the packet
+    /// </summary>
+    /// <returns>new <typeparamref name="byte"/> array from the data in this</returns>
     public byte[] Pack()
     {
         //  Write the packet size to the beginning
@@ -30,14 +74,16 @@ public class Packet
         return GetBytes();
     }
 
-    public Packet Unpack() { data.RemoveRange(0, 4); return this; }
-
-    public Packet ResetReader() { readIndex = 0; return this; }
-    public Packet Reset() { ResetReader(); data.Clear(); return this; }
-
-    public Packet Append(byte[] bytes) { data.AddRange(bytes); return this; }
-    public Packet Assign(byte[] bytes) { Reset(); Append(bytes); return this; }
-
+    /// <summary>
+    /// Writes a variable to the Packet
+    /// <para/> Supported types are
+    /// <see cref="string"/>
+    /// <see cref="int"/>
+    /// <see cref="float"/>
+    /// <see cref="bool"/>
+    /// </summary>
+    /// <returns>builder for <see cref="Packet"/></returns>
+    /// <exception cref="System.ArgumentException"></exception>
     public Packet Write(object value)
     {
         if      (value is string)   WriteString(value);
@@ -45,7 +91,7 @@ public class Packet
         else if (value is float)    WriteFloat(value);
         else if (value is bool)     WriteBool(value);
 
-        else throw new Exception($"Unsupported type [{value.GetType()}] passed to Packet.Write()");
+        else throw new ArgumentException($"Unsupported type [{value.GetType()}] passed to Packet.Write()");
 
         return this;
     }
