@@ -21,6 +21,10 @@ public class Packet
 
     public Packet() { }
 
+    //  Casting to/from byte array
+    public static implicit operator Packet(byte[] data) => new Packet(data);
+    public static implicit operator byte[](Packet packet) => packet.GetBytes();
+
     /// <returns>new <typeparamref name="byte"/> array from the data in <paramref name="this"/></returns>
     public byte[] GetBytes() => data.ToArray();
 
@@ -43,6 +47,12 @@ public class Packet
     /// </summary>
     /// <returns>builder for <see cref="Packet"/></returns>
     public Packet ResetReader() { readIndex = 0; return this; }
+
+    /// <summary>
+    /// Pushes the reading index by a set amount
+    /// </summary>
+    /// <returns>builder for <see cref="Packet"/></returns>
+    public Packet PushReader(int amount) { readIndex += amount; return this; }
 
     /// <summary>
     /// Delete all data and reset the reader
@@ -111,6 +121,14 @@ public class Packet
         //  Write the string
         bytes = Encoding.Default.GetBytes(s);
         Append(bytes);
+    }
+
+    public byte[] ReadBytes(int count)
+    {
+        byte[] bytes = data.GetRange(readIndex, count).ToArray();
+        readIndex += count;
+
+        return bytes;
     }
 
     public string ReadString()

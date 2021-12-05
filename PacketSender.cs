@@ -11,15 +11,21 @@ namespace mmorpg_server
 
         static void SendAll(Packet packet)
         {
+            packet.Pack();
+            byte[] data = packet.GetBytes();
+
             for (int i = 0; i < Server.MaxPlayers; i++)
-                Server.GetClients()[i].Tcp.SendData(packet.Pack());
+                Server.GetClients()[i].Tcp.SendData(data);
         }
 
         static void SendAllExcept(int exceptionID, Packet packet)
         {
+            packet.Pack();
+            byte[] data = packet.GetBytes();
+
             for (int i = 0; i < Server.MaxPlayers; i++)
                 if (i != exceptionID)
-                    Server.GetClients()[i].Tcp.SendData(packet.Pack());
+                    Server.GetClients()[i].Tcp.SendData(data);
         }
 
         public static void Handshake(int clientID, string msg)

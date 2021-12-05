@@ -16,7 +16,6 @@ namespace mmorpg_server
         private NetworkStream stream;
         private byte[] receiveBuffer;
         private Packet receivePacket;
-        private int receivePacketSize;
 
         public TcpConnection(int id)
         {
@@ -113,38 +112,8 @@ namespace mmorpg_server
                 byte[] data = new byte[DATA_BUFFER_SIZE];
                 Array.Copy(receiveBuffer, data, length);
 
-                receivePacket.Append(data);
-
-                //  If we are waiting for a packet, get the next packet's size in bytes
-                if (receivePacket.Length >= 4 && receivePacketSize == 0)
-                    receivePacketSize = receivePacket.ResetReader().ReadInt();
-
-                //  Read the packet if it is complete
-                if (receivePacket.Length >= receivePacketSize)
-                {
-                    //  Pull the packet from the received packet buffer
-                    Packet packet = receivePacket.Grab(4, receivePacketSize);
-
-                    int packetID = packet.ReadInt();
-                    int senderID = packet.ReadInt();
-
-                    if (VerifyClient(senderID))
-                    {
-                        Server.PacketHandler handler = Server.GetPacketHandler(packetID);
-                        if (handler != null)
-                            handler.Invoke(id, packet);
-                        else
-                            Console.WriteLine($"Received unknown packet [{packetID}] from client [{senderID}]");
-                    }
-                    else
-                    {
-                        Console.WriteLine($"Unable to verify packet! Receiver ID [{id}] mismatch sender ID [{senderID}]. Discarding packet.");
-                    }
-
-                    //  Reset to begin collecting the next packet
+                if (ReadPackets(data))
                     receivePacket.Reset();
-                    receivePacketSize = 0;
-                }
 
                 //  Continue reading data
                 stream.BeginRead(receiveBuffer, 0, DATA_BUFFER_SIZE, OnReceive, null);
@@ -154,6 +123,55 @@ namespace mmorpg_server
                 Console.WriteLine($"OnReceive error: {e}");
                 Server.GetClients()[id].Disconnect();
             }
+        }
+
+        bool ReadPackets(byte[] data)
+        {
+            int packetSize = 0;
+
+            receivePacket.Append(data);
+
+            if (receivePacket.UnreadBytes >= 4)
+                packetSize = receivePacket.ReadInt();
+
+            if (packetSize <= 0)
+                return true;
+
+            while (packetSize > 0 && packetSize <= receivePacket.UnreadBytes)
+            {
+                //  Pull the packet from out of the received packet buffer
+                Packet packet = receivePacket.ReadBytes(packetSize);
+
+                int packetID = packet.ReadInt();
+                int senderID = packet.ReadInt();
+
+                if (VerifyClient(senderID))
+                {
+                    Server.PacketHandler handler = Server.GetPacketHandler(packetID);
+                    if (handler != null)
+                        handler.Invoke(id, packet);
+                    else
+                        Console.WriteLine($"Received unknown packet [{packetID}] from client [{senderID}]");
+                }
+                else
+                {
+                    Console.WriteLine($"Unable to verify packet! Receiver ID [{id}] mismatch sender ID [{senderID}]. Discarding packet.");
+                }
+
+                packetSize = 0;
+                if (receivePacket.UnreadBytes >= 4)
+                    packetSize = receivePacket.ReadInt();
+
+                if (packetSize <= 0)
+                    return true;
+            }
+
+            if (packetSize <= 1)
+                return true;
+
+            //  When returning false, undo the ReadInt operation by pushing the read index
+            receivePacket.PushReader(-4);
+            return false;
         }
     }
 }
