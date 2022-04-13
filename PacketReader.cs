@@ -39,7 +39,7 @@ namespace mmorpg_server
 
                 Database.RegisterUser(username, hash, salt, guid);
 
-                Console.WriteLine($"Client [{clientID}] registered new user [{username}]]");
+                Console.WriteLine($"Client [{clientID}] registered new user [{username}]");
 
                 PacketSender.RegisterSuccess(clientID);
             }
@@ -58,7 +58,7 @@ namespace mmorpg_server
             {
                 if (Database.VerifyPassword(username, password))
                 {
-                    Console.WriteLine($"Client [{clientID}] logged in as user [{username}]]");
+                    Console.WriteLine($"Client [{clientID}] logged in as user [{username}]");
                     PacketSender.LoginSuccess(clientID, username);
                 }
                 else

@@ -2,13 +2,13 @@
   "version": 3,
   "targets": {
     ".NETFramework,Version=v4.6.2": {
-      "Microsoft.NETFramework.ReferenceAssemblies/1.0.0": {
+      "Microsoft.NETFramework.ReferenceAssemblies/1.0.2": {
         "type": "package",
         "dependencies": {
-          "Microsoft.NETFramework.ReferenceAssemblies.net462": "1.0.0"
+          "Microsoft.NETFramework.ReferenceAssemblies.net462": "1.0.2"
         }
       },
-      "Microsoft.NETFramework.ReferenceAssemblies.net462/1.0.0": {
+      "Microsoft.NETFramework.ReferenceAssemblies.net462/1.0.2": {
         "type": "package",
         "build": {
           "build/Microsoft.NETFramework.ReferenceAssemblies.net462.targets": {}
@@ -16,13 +16,13 @@
       }
     },
     ".NETFramework,Version=v4.6.2/win7-x86": {
-      "Microsoft.NETFramework.ReferenceAssemblies/1.0.0": {
+      "Microsoft.NETFramework.ReferenceAssemblies/1.0.2": {
         "type": "package",
         "dependencies": {
-          "Microsoft.NETFramework.ReferenceAssemblies.net462": "1.0.0"
+          "Microsoft.NETFramework.ReferenceAssemblies.net462": "1.0.2"
         }
       },
-      "Microsoft.NETFramework.ReferenceAssemblies.net462/1.0.0": {
+      "Microsoft.NETFramework.ReferenceAssemblies.net462/1.0.2": {
         "type": "package",
         "build": {
           "build/Microsoft.NETFramework.ReferenceAssemblies.net462.targets": {}
@@ -31,21 +31,21 @@
     }
   },
   "libraries": {
-    "Microsoft.NETFramework.ReferenceAssemblies/1.0.0": {
-      "sha512": "7D2TMufjGiowmt0E941kVoTIS+GTNzaPopuzM1/1LSaJAdJdBrVP0SkZW7AgDd0a2U1DjsIeaKG1wxGVBNLDMw==",
+    "Microsoft.NETFramework.ReferenceAssemblies/1.0.2": {
+      "sha512": "5/cSEVld+px/CuRrbohO/djfg6++eR6zGpy88MgqloXvkj//WXWpFZyu/OpkXPN0u5m+dN/EVwLNYFUxD4h2+A==",
       "type": "package",
-      "path": "microsoft.netframework.referenceassemblies/1.0.0",
+      "path": "microsoft.netframework.referenceassemblies/1.0.2",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
-        "microsoft.netframework.referenceassemblies.1.0.0.nupkg.sha512",
+        "microsoft.netframework.referenceassemblies.1.0.2.nupkg.sha512",
         "microsoft.netframework.referenceassemblies.nuspec"
       ]
     },
-    "Microsoft.NETFramework.ReferenceAssemblies.net462/1.0.0": {
-      "sha512": "ONGjkFWduK13lfxUtlEl4+nYwrqDe5NF5f8qRtp5fqWiWYlqft/Ko9ht3e6Secg9y3I1yL8Xnfag/JGOOn0yoQ==",
+    "Microsoft.NETFramework.ReferenceAssemblies.net462/1.0.2": {
+      "sha512": "vnWMOt5+4SLOLu5hlB54LMK5OHqsX+5ekbo6vb7USvCM5uA4UKtATuMvIAw69ak62F94c+3895XwF5TcjjzpVw==",
       "type": "package",
-      "path": "microsoft.netframework.referenceassemblies.net462/1.0.0",
+      "path": "microsoft.netframework.referenceassemblies.net462/1.0.2",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -365,14 +365,14 @@
         "build/.NETFramework/v4.6.2/sysglobl.dll",
         "build/.NETFramework/v4.6.2/sysglobl.xml",
         "build/Microsoft.NETFramework.ReferenceAssemblies.net462.targets",
-        "microsoft.netframework.referenceassemblies.net462.1.0.0.nupkg.sha512",
+        "microsoft.netframework.referenceassemblies.net462.1.0.2.nupkg.sha512",
         "microsoft.netframework.referenceassemblies.net462.nuspec"
       ]
     }
   },
   "projectFileDependencyGroups": {
     ".NETFramework,Version=v4.6.2": [
-      "Microsoft.NETFramework.ReferenceAssemblies >= 1.0.0"
+      "Microsoft.NETFramework.ReferenceAssemblies >= 1.0.2"
     ]
   },
   "packageFolders": {
@@ -382,11 +382,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Projects\\mmorpg-server\\mmorpg_server.csproj",
+      "projectUniqueName": "d:\\Projects5\\mmorpg-server\\mmorpg_server.csproj",
       "projectName": "mmorpg_server",
-      "projectPath": "D:\\Projects\\mmorpg-server\\mmorpg_server.csproj",
+      "projectPath": "d:\\Projects5\\mmorpg-server\\mmorpg_server.csproj",
       "packagesPath": "C:\\Users\\Chase\\.nuget\\packages\\",
-      "outputPath": "D:\\Projects\\mmorpg-server\\obj\\",
+      "outputPath": "d:\\Projects5\\mmorpg-server\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -422,11 +422,11 @@
           "Microsoft.NETFramework.ReferenceAssemblies": {
             "suppressParent": "All",
             "target": "Package",
-            "version": "[1.0.0, )",
+            "version": "[1.0.2, )",
             "autoReferenced": true
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.202\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.104\\RuntimeIdentifierGraph.json"
       }
     },
     "runtimes": {

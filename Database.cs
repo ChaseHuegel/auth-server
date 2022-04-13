@@ -9,7 +9,7 @@ namespace mmorpg_server
 {
     public static class Database
     {
-        private const string userConnectionString = "Server=DESKTOP-DAFUPJA\\SQLEXPRESS;Database=mmo;Trusted_Connection=True;";
+        private const string userConnectionString = "Server=CHASE-PC\\SQLEXPRESS01;Database=mmorpg;Trusted_Connection=True;";
 
         public static byte[] GenerateHash(byte[] value) => new SHA256Managed().ComputeHash(value);
 
