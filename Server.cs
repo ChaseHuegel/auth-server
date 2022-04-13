@@ -37,12 +37,15 @@ namespace mmorpg_server
             OpenConnection();
 
             Console.WriteLine($"Server started at {tcpListener.Server.LocalEndPoint}");
+
+            Demo.Initialize();
         }
 
-        public static void Tick()
+        public static void Tick(float deltaTime)
         {
-            playerCount = 0;
+            Demo.Tick(deltaTime);
 
+            playerCount = 0;
             for (int i = 0; i < MaxPlayers; i++)
             {
                 //  Count online players

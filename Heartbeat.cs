@@ -20,7 +20,7 @@ namespace mmorpg_server
 
         public void Run(float deltaTime)
         {
-            Server.Tick();
+            Server.Tick(deltaTime);
             UpdateTitle();
         }
 
