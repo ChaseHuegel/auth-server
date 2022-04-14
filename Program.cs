@@ -7,7 +7,7 @@ namespace mmorpg_server
     class Program
     {
         public const int MAX_PLAYERS = 300;
-        public const int PORT = 11774;
+        public const int PORT = 42420;
         public const int TICK_RATE = 15;
         public const int TIMEOUT = 600;
 
