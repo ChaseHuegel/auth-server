@@ -1,6 +1,3 @@
-using System;
-using System.Diagnostics;
-using System.Threading;
 using Swordfish.Threading;
 
 namespace mmorpg_server
@@ -9,29 +6,21 @@ namespace mmorpg_server
     {
         private ThreadWorker thread;
 
+        private Demo Demo;
+
         public void Initialize()
         {
-            UpdateTitle();
-
-            thread = new ThreadWorker(Run, false, "MainHeartbeat");
-            thread.TargetTickRate = Program.TICK_RATE;
+            Demo = new Demo();
+            thread = new ThreadWorker(Demo.Tick, false, "MainHeartbeat");
+            thread.TargetTickRate = Demo.TICK_RATE;
             thread.Start();
-        }
 
-        public void Run(float deltaTime)
-        {
-            Server.Tick(deltaTime);
-            UpdateTitle();
+            Demo.Start();
         }
 
         public void Stop()
         {
             thread.Stop();
-        }
-
-        static void UpdateTitle()
-        {
-            Console.Title = $"MMORPG Server | {Server.GetAddress()} | {Program.TICK_RATE}/s | {Server.GetPlayerCount()}/{Program.MAX_PLAYERS}";
         }
     }
 }

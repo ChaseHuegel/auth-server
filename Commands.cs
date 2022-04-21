@@ -10,7 +10,7 @@ namespace mmorpg_server
             string input = Console.ReadLine();
 
             if (input.ToLower().Trim() == "stop")
-                Program.Exit();
+                Application.Exit();
         }
     }
 }

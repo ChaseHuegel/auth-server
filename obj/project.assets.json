@@ -382,11 +382,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "d:\\Projects5\\mmorpg-server\\mmorpg_server.csproj",
+      "projectUniqueName": "D:\\Projects5\\mmorpg-server\\mmorpg_server.csproj",
       "projectName": "mmorpg_server",
-      "projectPath": "d:\\Projects5\\mmorpg-server\\mmorpg_server.csproj",
+      "projectPath": "D:\\Projects5\\mmorpg-server\\mmorpg_server.csproj",
       "packagesPath": "C:\\Users\\Chase\\.nuget\\packages\\",
-      "outputPath": "d:\\Projects5\\mmorpg-server\\obj\\",
+      "outputPath": "D:\\Projects5\\mmorpg-server\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

@@ -1,5 +1,8 @@
 {
     "version": "0.2.0",
+    "buildOptions": {
+        "debugType": "portable"
+    },
     "configurations": [
         {
             // Use IntelliSense to find out which attributes exist for C# debugging
@@ -10,11 +13,11 @@
             "request": "launch",
             "preLaunchTask": "build",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/bin/Debug/net5.0/mmorpg_server.dll",
+            "program": "${workspaceFolder}/bin/Debug/net462/mmorpg_server.exe",
             "args": [],
             "cwd": "${workspaceFolder}",
             // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
-            "console": "internalConsole",
+            "console": "externalTerminal",
             "stopAtEntry": false
         },
         {

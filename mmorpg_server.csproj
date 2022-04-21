@@ -1,8 +1,10 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <OutputType>Exe</OutputType>
+    <OutputType>exe</OutputType>
     <TargetFramework>net462</TargetFramework>
+    <DebugType>portable</DebugType>
+    <RootNamespace>Swordfish</RootNamespace>
   </PropertyGroup>
 
 </Project>

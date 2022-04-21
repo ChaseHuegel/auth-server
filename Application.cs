@@ -1,16 +1,12 @@
 ﻿using System;
 using System.Text;
 using System.Threading;
+using Swordfish.Networking;
 
 namespace mmorpg_server
 {
-    class Program
+    class Application
     {
-        public const int MAX_PLAYERS = 300;
-        public const int PORT = 42420;
-        public const int TICK_RATE = 15;
-        public const int TIMEOUT = 600;
-
         private static bool stop = false;
 
         private static Commands commandHandler = new Commands();
@@ -18,13 +14,10 @@ namespace mmorpg_server
 
         static void Main(string[] args)
         {
-            Server.Start(MAX_PLAYERS, PORT);
             heartbeat.Initialize();
 
             while (!stop)
-            {
                 commandHandler.Read();
-            }
 
             heartbeat.Stop();
         }
