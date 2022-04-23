@@ -12,10 +12,9 @@ namespace Swordfish.Library.Networking
     {
         private UdpClient Udp { get; }
 
+        public NetSession Session { get; }
 
         private ConcurrentDictionary<IPEndPoint, NetSession> Sessions { get; }
-
-        public NetSession Session { get; }
 
         public EventHandler<NetEventArgs> PacketSent;
         public EventHandler<NetEventArgs> PacketAccepted;
@@ -130,7 +129,7 @@ namespace Swordfish.Library.Networking
 
         public void Send(byte[] buffer, string hostname, int port)
         {
-            IPEndPoint endPoint = new IPEndPoint(IPAddress.None, port);
+            IPEndPoint endPoint = new IPEndPoint(NetUtils.GetHostAddress(hostname), port);
             NetEventArgs netEventArgs = new NetEventArgs {
                 Packet = buffer,
                 EndPoint = endPoint

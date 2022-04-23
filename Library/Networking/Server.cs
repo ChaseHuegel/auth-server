@@ -27,7 +27,7 @@ namespace Swordfish.Library.Networking
                 Message = "Hello World!"
             };
             
-            Net.Send(handshake, "localhost", Port);
+            Net.Send(handshake, "swordfishseven.com", Port);
         }
 
         public void OnPacketSent(object sender, NetEventArgs e)
