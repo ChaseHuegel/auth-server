@@ -1,5 +1,5 @@
 using System;
-using Swordfish.Networking;
+using Swordfish.Library.Networking;
 
 namespace mmorpg_server
 {
@@ -28,7 +28,7 @@ namespace mmorpg_server
 
         private void UpdateTitle()
         {
-            Console.Title = $"MMORPG Server | {Server.Net.Address} | {TICK_RATE}/s | {0}/{MAX_PLAYERS}";
+            Console.Title = $"MMORPG Server | {Server.Net.Session.EndPoint} | {TICK_RATE}/s | {0}/{MAX_PLAYERS}";
         }
     }
 }

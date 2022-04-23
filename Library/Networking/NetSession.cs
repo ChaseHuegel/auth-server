@@ -1,9 +1,9 @@
 using System.Net;
 using System;
 
-namespace Swordfish.Networking
+namespace Swordfish.Library.Networking
 {
-    public struct ClientConnection
+    public struct NetSession
     {
         public IPEndPoint EndPoint { get; set; }
 

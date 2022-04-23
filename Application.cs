@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Text;
 using System.Threading;
-using Swordfish.Networking;
+using Swordfish.Library.Networking;
 
 namespace mmorpg_server
 {
-    class Application
+    public class Application
     {
         private static bool stop = false;
 
