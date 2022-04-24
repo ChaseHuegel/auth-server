@@ -22,12 +22,6 @@ namespace Swordfish.Library.Networking
             Net.PacketReceived += OnPacketReceived;
             Net.PacketAccepted += OnPacketAccepted;
             Net.PacketRejected += OnPacketRejected;
-
-            HandshakePacket handshake = new HandshakePacket {
-                Message = "Hello World!"
-            };
-            
-            Net.Send(handshake, "swordfishseven.com", Port);
         }
 
         public void OnPacketSent(object sender, NetEventArgs e)
