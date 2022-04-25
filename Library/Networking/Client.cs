@@ -1,5 +1,6 @@
 using System;
-using System.Net;
+
+using Swordfish.Library.Extensions;
 
 namespace Swordfish.Library.Networking
 {
@@ -13,6 +14,7 @@ namespace Swordfish.Library.Networking
             this.PacketReceived += OnPacketReceived;
             this.PacketAccepted += OnPacketAccepted;
             this.PacketRejected += OnPacketRejected;
+            this.PacketUnknown += OnPacketUnknown;
         }
 
         public void OnPacketSent(object sender, NetEventArgs e)
@@ -33,6 +35,11 @@ namespace Swordfish.Library.Networking
         public void OnPacketRejected(object sender, NetEventArgs e)
         {
             Console.WriteLine($"client->reject {e.PacketID} from {e.EndPoint}");
+        }
+
+        public void OnPacketUnknown(object sender, NetEventArgs e)
+        {
+            Console.WriteLine($"client->unknown '{e.Packet.ToString().TruncateUpTo(24).Append("[...]")}' from {e.EndPoint}");
         }
     }
 }

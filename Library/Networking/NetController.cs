@@ -1,12 +1,11 @@
-using System.Linq;
 using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
 using System.Reflection;
 
 using Swordfish.Library.Networking.Interfaces;
-using System.Collections.Generic;
 
 namespace Swordfish.Library.Networking
 {
@@ -61,6 +60,7 @@ namespace Swordfish.Library.Networking
         public EventHandler<NetEventArgs> PacketAccepted;
         public EventHandler<NetEventArgs> PacketReceived;
         public EventHandler<NetEventArgs> PacketRejected;
+        public EventHandler<NetEventArgs> PacketUnknown;
         public EventHandler<NetEventArgs> SessionStarted;
         public EventHandler<NetEventArgs> SessionEnded;
         public EventHandler<NetEventArgs> SessionRejected;
@@ -109,7 +109,7 @@ namespace Swordfish.Library.Networking
                 //  Bind to provided address and port.
                 var endPoint = new IPEndPoint(address, port);
                 Udp = new UdpClient(endPoint);
-            }            
+            }
             
             //  Setup sessions; ensure the local connection is assigned a session.
             Sessions = new ConcurrentDictionary<IPEndPoint, NetSession>();
@@ -138,40 +138,42 @@ namespace Swordfish.Library.Networking
             IPEndPoint endPoint = new IPEndPoint(IPAddress.Any, 0);
             Packet packet = Udp.EndReceive(result, ref endPoint);
 
-            int sessionID = packet.ReadInt();
-            int packetID = packet.ReadInt();
-            PacketDefinition packetDefinition = PacketManager.GetPacketDefinition(packetID);
-
-            PacketReceived?.Invoke(this, new NetEventArgs {
-                Packet = packet,
-                EndPoint = endPoint
-            });
-
-            //  The packet is accepted if:
-            //  -   the packet doesn't require a session
-            //  -   OR the provided session is valid
-            NetSession session = null;
-            if (!packetDefinition.RequiresSession || IsSessionValid(endPoint, sessionID, out session))
-            {
-                NetEventArgs netEventArgs = new NetEventArgs {
-                    Packet = packet,
-                    EndPoint = endPoint,
-                    Session = session
-                };
-
-                PacketAccepted?.Invoke(this, netEventArgs);
-
-                //  Deserialize the packet and invoke it's handlers
-                object deserializedPacket = (ISerializedPacket) packet.Deserialize(packetDefinition.Type);
-                foreach (MethodInfo handler in packetDefinition.Handlers)
-                    handler.Invoke(null, new object[] { this, deserializedPacket, netEventArgs });
-            }
-            else
-            {
-                PacketRejected?.Invoke(this, new NetEventArgs {
+            NetEventArgs netEventArgs = new NetEventArgs {
                     Packet = packet,
                     EndPoint = endPoint
-                });
+                };
+
+            try {
+                int sessionID = packet.ReadInt();
+                int packetID = packet.ReadInt();
+                PacketDefinition packetDefinition = PacketManager.GetPacketDefinition(packetID);
+
+                netEventArgs.PacketID = packetID;
+
+                PacketReceived?.Invoke(this, netEventArgs);
+
+                //  The packet is accepted if:
+                //  -   the packet doesn't require a session
+                //  -   OR the provided session is valid
+                NetSession session = null;
+                if (!packetDefinition.RequiresSession || IsSessionValid(endPoint, sessionID, out session))
+                {
+                    netEventArgs.Session = session;
+                    PacketAccepted?.Invoke(this, netEventArgs);
+
+                    //  Deserialize the packet and invoke it's handlers
+                    object deserializedPacket = (ISerializedPacket) packet.Deserialize(packetDefinition.Type);
+                    foreach (MethodInfo handler in packetDefinition.Handlers)
+                        handler.Invoke(null, new object[] { this, deserializedPacket, netEventArgs });
+                }
+                else
+                {
+                    PacketRejected?.Invoke(this, netEventArgs);
+                }
+            }
+            catch
+            {
+                PacketUnknown?.Invoke(this, netEventArgs);
             }
 
             //  Continue receiving data

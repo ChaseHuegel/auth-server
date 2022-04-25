@@ -24,6 +24,8 @@ namespace Swordfish.Library.Networking
 
         public Packet() { }
 
+        public override string ToString() => Encoding.ASCII.GetString(GetBytes());
+
         //  Casting to/from byte array
         public static implicit operator Packet(byte[] data) => new Packet(data);
         public static implicit operator byte[](Packet packet) => packet.GetBytes();
