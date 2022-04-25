@@ -10,14 +10,14 @@ namespace Swordfish.Library.Networking
         {
             Console.WriteLine($"Client started on {this.Session.EndPoint}");
 
-            this.PacketSent += OnPacketSent;
+            /* this.PacketSent += OnPacketSent;
             this.PacketReceived += OnPacketReceived;
             this.PacketAccepted += OnPacketAccepted;
             this.PacketRejected += OnPacketRejected;
-            this.PacketUnknown += OnPacketUnknown;
+            this.PacketUnknown += OnPacketUnknown; */
         }
 
-        public void OnPacketSent(object sender, NetEventArgs e)
+        /* public void OnPacketSent(object sender, NetEventArgs e)
         {
             Console.WriteLine($"client->sent {e.PacketID} to {e.EndPoint}");
         }
@@ -40,6 +40,6 @@ namespace Swordfish.Library.Networking
         public void OnPacketUnknown(object sender, NetEventArgs e)
         {
             Console.WriteLine($"client->unknown '{e.Packet.ToString().TruncateUpTo(24).Append("[...]")}' from {e.EndPoint}");
-        }
+        } */
     }
 }

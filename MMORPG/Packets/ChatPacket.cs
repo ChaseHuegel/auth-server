@@ -19,7 +19,7 @@ namespace Swordfish.MMORPG.Packets
             {
                 //  The server has authority over identifying the sender
                 packet.Sender = e.Session.ID;
-                net.Send(packet, e.Session);
+                net.Broadcast(packet);
             }
 
             Console.WriteLine($"[{net.GetType().Name}] {packet.Sender}: {packet.Message}");

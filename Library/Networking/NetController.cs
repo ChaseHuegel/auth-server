@@ -1,3 +1,5 @@
+using System.Linq;
+using System.Threading.Tasks.Dataflow;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -211,21 +213,21 @@ namespace Swordfish.Library.Networking
                     .Serialize(value);
         }
 
-        public void Send(ISerializedPacket value)
+        public void Send(ISerializedPacket packet)
         {
             if (string.IsNullOrEmpty(DefaultHost.Hostname))
-                Send(SignPacket(value), DefaultHost.EndPoint.Address, DefaultHost.EndPoint.Port);
+                Send(SignPacket(packet), DefaultHost.EndPoint.Address, DefaultHost.EndPoint.Port);
             else
-                Send(SignPacket(value), DefaultHost.Hostname, DefaultHost.Port);
+                Send(SignPacket(packet), DefaultHost.Hostname, DefaultHost.Port);
         }
 
-        public void Send(ISerializedPacket value, NetSession session) => Send(SignPacket(value), session.EndPoint.Address, session.EndPoint.Port);
+        public void Send(ISerializedPacket packet, NetSession session) => Send(SignPacket(packet), session.EndPoint.Address, session.EndPoint.Port);
 
-        public void Send(ISerializedPacket value, IPEndPoint endPoint) => Send(SignPacket(value), endPoint.Address, endPoint.Port);
+        public void Send(ISerializedPacket packet, IPEndPoint endPoint) => Send(SignPacket(packet), endPoint.Address, endPoint.Port);
 
-        public void Send(ISerializedPacket value, IPAddress address, int port) => Send(SignPacket(value), address, port);
+        public void Send(ISerializedPacket packet, IPAddress address, int port) => Send(SignPacket(packet), address, port);
 
-        public void Send(ISerializedPacket value, string hostname, int port) => Send(SignPacket(value), hostname, port);
+        public void Send(ISerializedPacket packet, string hostname, int port) => Send(SignPacket(packet), hostname, port);
 
         public void Send(byte[] buffer, IPAddress address, int port)
         {
@@ -252,6 +254,24 @@ namespace Swordfish.Library.Networking
             };
 
             Udp.BeginSend(buffer, buffer.Length, hostname, port, OnSend, netEventArgs);
+        }
+
+        public void Broadcast(ISerializedPacket packet)
+        {
+            foreach (NetSession session in Sessions.Values)
+                if (session != Session) Send(packet, session);
+        }
+
+        public void BroadcastTo(ISerializedPacket packet, params NetSession[] whitelist)
+        {
+            foreach (NetSession session in whitelist)
+                if (session != Session) Send(packet, session);
+        }
+
+        public void BroadcastExcept(ISerializedPacket packet, params NetSession[] blacklist)
+        {
+            foreach (NetSession session in Sessions.Values.Except(blacklist))
+                if (session != Session) Send(packet, session);
         }
 
         /// <summary>

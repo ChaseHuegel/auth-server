@@ -18,5 +18,16 @@ namespace Swordfish.Library.Networking
         {
             return $"{ID} @ {EndPoint}";
         }
+
+        public override bool Equals(object obj)
+        {
+            NetSession other = obj as NetSession;
+            return other != null && this.ID == other.ID && (this?.EndPoint.Equals(other?.EndPoint) ?? false);
+        }
+
+        public override int GetHashCode()
+        {
+            return ID.GetHashCode() ^ EndPoint.GetHashCode();
+        }
     }
 }
