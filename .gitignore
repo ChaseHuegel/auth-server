@@ -1,0 +1,11 @@
+.vscode/
+.vs/
+bin/
+obj/
+unit-tests/.vscode/
+unit-tests/bin/
+unit-tests/obj/
+screenshots/
+config/
+
+*.log
