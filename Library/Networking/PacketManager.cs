@@ -45,6 +45,9 @@ namespace Swordfish.Library.Networking
                 {
                     if (IsValidHandlerParameters(method.GetParameters()))
                     {
+                        if (packetHandlerAttribute.PacketType == null)
+                            packetHandlerAttribute.PacketType = method.DeclaringType;
+
                         GetPacketDefinition(packetHandlerAttribute.PacketType).Handlers.Add(method);
                         Console.WriteLine(
                             $"Registered '{TruncateToString(method.DeclaringType)}'"
@@ -70,7 +73,7 @@ namespace Swordfish.Library.Networking
                 {
                     if (typeof(ISerializedPacket).IsAssignableFrom(type))
                     {
-                        int id = packetDefinitions.Count;
+                        int id = packetAttribute.PacketID ?? type.FullName.ToSeed();
                         PacketDefinition definition = new PacketDefinition {
                             ID = id,
                             Type = type,
@@ -82,7 +85,7 @@ namespace Swordfish.Library.Networking
                     }
                     else
                     {
-                        Console.WriteLine($"Ignored '{type}' decorated as a packet but does not implement IPacket");
+                        Console.WriteLine($"Ignored '{type}' decorated as a packet but does not implement {typeof(ISerializedPacket)}");
                     }
                 }
             }

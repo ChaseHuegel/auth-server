@@ -5,7 +5,7 @@ using Swordfish.Library.Networking.Interfaces;
 
 namespace Swordfish.Library.Networking.Packets
 {
-    [Packet]
+    [Packet(RequiresSession = false)]
     public struct HandshakePacket : ISerializedPacket
     {
         public int ClientID;

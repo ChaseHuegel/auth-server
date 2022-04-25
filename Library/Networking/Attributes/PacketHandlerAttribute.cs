@@ -15,6 +15,8 @@ namespace Swordfish.Library.Networking.Attributes
     {
         public Type PacketType;
 
+        public PacketHandlerAttribute() { }
+
         public PacketHandlerAttribute(Type packetType)
         {
             PacketType = packetType;

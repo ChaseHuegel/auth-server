@@ -41,5 +41,14 @@ namespace Swordfish.Library.Extensions
         {
             return value.Insert(0, prepend);
         }
+
+        public static int ToSeed(this string value)
+        {
+            int seed = value.Length;
+            foreach (char c in value)
+                seed = ((seed << 5) + seed) ^ c;
+            
+            return seed;
+        }
     }
 }
