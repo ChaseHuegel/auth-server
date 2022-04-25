@@ -34,6 +34,21 @@ namespace Swordfish.Library.Networking
         public NetSession Session { get; private set; }
 
         /// <summary>
+        /// The maximum number of sessions allowed to be active.
+        /// </summary>
+        public int MaxSessions { get; set; } = 20;
+        
+        /// <summary>
+        /// The number of sessions currently active.
+        /// </summary>
+        public int SessionCount => Sessions.Count-1;    // -1 to not count the local session
+
+        /// <summary>
+        /// Whether this <see cref="NetController"/> has reached it's max active sessions.
+        /// </summary>
+        public bool IsFull => SessionCount >= MaxSessions;
+
+        /// <summary>
         /// Whether to validate session IDs.
         /// Should be true to ensure a layer of session security.
         /// <para/>
@@ -269,7 +284,7 @@ namespace Swordfish.Library.Networking
                 EndPoint = endPoint
             };
 
-            if (Sessions.TryAdd(endPoint, session))
+            if (!IsFull && Sessions.TryAdd(endPoint, session))
             {
                 //  TODO recycle session IDs
                 session.ID = Sessions.Count-1;

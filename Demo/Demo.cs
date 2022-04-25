@@ -41,7 +41,7 @@ namespace Demo
 
         private void UpdateTitle()
         {
-            Console.Title = $"MMORPG Server | {Server?.Session.EndPoint} | {TICK_RATE}/s | {0}/{MAX_PLAYERS}";
+            Console.Title = $"MMORPG Server | {Server?.Session.EndPoint} | {TICK_RATE}/s | {Server?.SessionCount}/{MAX_PLAYERS}";
         }
     }
 }
