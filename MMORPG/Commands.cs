@@ -1,10 +1,10 @@
 using System;
 
-namespace Demo
+namespace MMORPG
 {
-    public class Commands
+    public static class Commands
     {
-        public void Read()
+        public static void Read()
         {
             string input = Console.ReadLine();
             string[] arguments = input.Split(' ');
@@ -18,8 +18,8 @@ namespace Demo
                 case "players":
                 case "sessions":
                 case "connected":
-                    Console.WriteLine("Server: " + string.Join(", ", Demo.Instance.Server.GetSessions()));
-                    Console.WriteLine("Client: " + string.Join(", ", Demo.Instance.Client.GetSessions()));
+                    Console.WriteLine("Server: " + string.Join(", ", Heartbeat.Server.GetSessions()));
+                    Console.WriteLine("Client: " + string.Join(", ", Heartbeat.Client.GetSessions()));
                     break;
             }
         }
