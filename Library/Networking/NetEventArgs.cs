@@ -1,6 +1,5 @@
-using System.Net;
 using System;
-using Swordfish.Library.Networking.Interfaces;
+using System.Net;
 
 namespace Swordfish.Library.Networking
 {
@@ -12,6 +11,6 @@ namespace Swordfish.Library.Networking
 
         public IPEndPoint EndPoint;
 
-        public NetSession? Session;
+        public NetSession Session;
     }
 }

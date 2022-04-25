@@ -1,4 +1,5 @@
 using System;
+
 using Swordfish.Library.Networking;
 using Swordfish.Library.Networking.Packets;
 
@@ -6,42 +7,41 @@ namespace mmorpg_server
 {
     public class Demo
     {
-        private static Demo Instance;
+        public static Demo Instance { get; private set; }
 
-        public const int MAX_PLAYERS = 300;
+        public const string HOSTNAME = "localhost";
         public const int PORT = 42420;
+        public const int MAX_PLAYERS = 300;
         public const int TICK_RATE = 15;
 
-        private Server Server;
+        public Server Server { get; private set; }
+        public Client Client { get; private set; }
 
         public void Start()
         {
             Instance = this;
+
+            Host host = new Host {
+                Hostname = HOSTNAME,
+                Port = PORT
+            };
+
             Server = new Server(PORT);
+            Client = new Client(host);
+
+            Client.Send(new HandshakePacket());
 
             UpdateTitle();
         }
 
         public void Tick(float deltaTime)
-        {
-            if (Server == null)
-                return;
-            
+        {            
             UpdateTitle();
-        }
-
-        public static void Send(string message)
-        {
-            HandshakePacket handshake = new HandshakePacket {
-                Message = message
-            };
-
-            Instance.Server.Net.Send(handshake, "localhost", PORT);
         }
 
         private void UpdateTitle()
         {
-            Console.Title = $"MMORPG Server | {Server.Net.Session.EndPoint} | {TICK_RATE}/s | {0}/{MAX_PLAYERS}";
+            Console.Title = $"MMORPG Server | {Server?.Session.EndPoint} | {TICK_RATE}/s | {0}/{MAX_PLAYERS}";
         }
     }
 }

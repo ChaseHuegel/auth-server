@@ -1,6 +1,5 @@
 using System;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace mmorpg_server
 {
@@ -16,9 +15,11 @@ namespace mmorpg_server
                 case "stop":
                     Application.Exit();
                     break;
-                
-                case "send":
-                    Demo.Send(string.Join(" ", arguments.Skip(1)));
+                case "list":
+                case "players":
+                case "sessions":
+                case "connected":
+                    Console.WriteLine(string.Join(", ", Demo.Instance.Server.GetSessions()));
                     break;
             }
         }

@@ -98,7 +98,10 @@ namespace Swordfish.Library.Networking
 
         private static bool IsValidHandlerParameters(ParameterInfo[] parameters)
         {
-            return parameters.Length == 2 && typeof(ISerializedPacket).IsAssignableFrom(parameters[0].ParameterType) && parameters[1].ParameterType == typeof(NetSession);
+            return parameters.Length == 3
+                && parameters[0].ParameterType == typeof(NetController)
+                && typeof(ISerializedPacket).IsAssignableFrom(parameters[1].ParameterType)
+                && parameters[2].ParameterType == typeof(NetEventArgs);
         }
     }
 }
