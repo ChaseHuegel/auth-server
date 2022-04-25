@@ -1,7 +1,6 @@
 using System;
-using System.Linq;
 
-namespace mmorpg_server
+namespace Demo
 {
     public class Commands
     {

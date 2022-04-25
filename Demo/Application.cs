@@ -1,9 +1,4 @@
-﻿using System;
-using System.Text;
-using System.Threading;
-using Swordfish.Library.Networking;
-
-namespace mmorpg_server
+﻿namespace Demo
 {
     public class Application
     {

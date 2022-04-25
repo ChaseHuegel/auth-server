@@ -1,6 +1,6 @@
 using Swordfish.Threading;
 
-namespace mmorpg_server
+namespace Demo
 {
     public class Heartbeat
     {

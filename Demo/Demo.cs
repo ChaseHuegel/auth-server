@@ -3,7 +3,7 @@ using System;
 using Swordfish.Library.Networking;
 using Swordfish.Library.Networking.Packets;
 
-namespace mmorpg_server
+namespace Demo
 {
     public class Demo
     {
