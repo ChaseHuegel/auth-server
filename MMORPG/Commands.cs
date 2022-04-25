@@ -1,4 +1,6 @@
 using System;
+using System.Linq;
+using Swordfish.MMORPG.Packets;
 
 namespace MMORPG
 {
@@ -20,6 +22,13 @@ namespace MMORPG
                 case "connected":
                     Console.WriteLine("Server: " + string.Join(", ", Heartbeat.Server.GetSessions()));
                     Console.WriteLine("Client: " + string.Join(", ", Heartbeat.Client.GetSessions()));
+                    break;
+                case "say":
+                    ChatPacket chat = new ChatPacket {
+                        Message = string.Join(' ', arguments.Skip(1))
+                    };
+
+                    Heartbeat.Client.Send(chat);
                     break;
             }
         }

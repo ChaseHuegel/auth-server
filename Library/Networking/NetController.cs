@@ -143,7 +143,7 @@ namespace Swordfish.Library.Networking
         private void OnSend(IAsyncResult result)
         {
             Udp.EndSend(result);
-            PacketSent.Invoke(this, (NetEventArgs) result.AsyncState);
+            PacketSent?.Invoke(this, (NetEventArgs) result.AsyncState);
             
             //  TODO If it isn't a fire and forget packet, we should resend with a delay until a response is received
         }
