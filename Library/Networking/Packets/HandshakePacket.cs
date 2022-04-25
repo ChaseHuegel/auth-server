@@ -18,7 +18,7 @@ namespace Swordfish.Library.Networking.Packets
             ServerID = NetSession.LocalOrUnassigned;
         }
 
-        [PacketHandler(typeof(HandshakePacket))]
+        [PacketHandler]
         public static void OnHandshakeReceived(NetController net, HandshakePacket packet, NetEventArgs e)
         {
             if (net is Client)
