@@ -1,4 +1,6 @@
-﻿namespace MMORPG
+﻿using System;
+
+namespace MMORPG
 {
     public class Application
     {
@@ -8,12 +10,20 @@
 
         static void Main(string[] args)
         {
-            heartbeat.Initialize();
+            try {
+                heartbeat.Initialize();
 
-            while (!stop)
-                Commands.Read();
+                while (!stop)
+                    Commands.Read();
 
-            heartbeat.Stop();
+                heartbeat.Stop();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+            }
+
+            Console.ReadKey();
         }
 
         public static void Exit()

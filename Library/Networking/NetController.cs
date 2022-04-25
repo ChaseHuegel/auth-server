@@ -112,34 +112,40 @@ namespace Swordfish.Library.Networking
 
         private void Initialize(IPAddress address, int port, Host host)
         {
-            if (address == null)
-            {
-                //  Bind automatically if no address or port is provided.
-                if (port <= 0)
-                    Udp = new UdpClient(0);
-                //  Bind to a provided port and automatic address.
+            try {
+                if (address == null)
+                {
+                    //  Bind automatically if no address or port is provided.
+                    if (port <= 0)
+                        Udp = new UdpClient(0);
+                    //  Bind to a provided port and automatic address.
+                    else
+                        Udp = new UdpClient(port);
+                }
                 else
-                    Udp = new UdpClient(port);
+                {
+                    //  Bind to provided address and port.
+                    var endPoint = new IPEndPoint(address, port);
+                    Udp = new UdpClient(endPoint);
+                }
+                
+                //  Setup sessions; ensure the local connection is assigned a session.
+                Sessions = new ConcurrentDictionary<IPEndPoint, NetSession>();
+                TryAddSession((IPEndPoint)Udp.Client.LocalEndPoint, out NetSession session);
+                Session = session;
+
+                DefaultHost = host ?? new Host{
+                    Address = Session.EndPoint.Address,
+                    Port = Session.EndPoint.Port
+                };
+
+                Udp.BeginReceive(new AsyncCallback(OnReceive), null);
+                Console.WriteLine($"NetController session started [{Session}]");
             }
-            else
+            catch (Exception ex)
             {
-                //  Bind to provided address and port.
-                var endPoint = new IPEndPoint(address, port);
-                Udp = new UdpClient(endPoint);
+                Console.WriteLine($"NetController failed to start on [{port}]\n{ex}");
             }
-            
-            //  Setup sessions; ensure the local connection is assigned a session.
-            Sessions = new ConcurrentDictionary<IPEndPoint, NetSession>();
-            TryAddSession((IPEndPoint)Udp.Client.LocalEndPoint, out NetSession session);
-            Session = session;
-
-            DefaultHost = host ?? new Host{
-                Address = Session.EndPoint.Address,
-                Port = Session.EndPoint.Port
-            };
-
-            Udp.BeginReceive(new AsyncCallback(OnReceive), null);
-            Console.WriteLine($"NetController session started [{Session}]");
         }
 
         private void OnSend(IAsyncResult result)
