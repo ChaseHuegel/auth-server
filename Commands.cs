@@ -19,7 +19,8 @@ namespace mmorpg_server
                 case "players":
                 case "sessions":
                 case "connected":
-                    Console.WriteLine(string.Join(", ", Demo.Instance.Server.GetSessions()));
+                    Console.WriteLine("Server: " + string.Join(", ", Demo.Instance.Server.GetSessions()));
+                    Console.WriteLine("Client: " + string.Join(", ", Demo.Instance.Client.GetSessions()));
                     break;
             }
         }

@@ -56,5 +56,10 @@ namespace Swordfish.Library.Networking
                 m_EndPoint.Port = m_Port;
             }
         }
+
+        public override string ToString()
+        {
+            return $"{(string.IsNullOrEmpty(Hostname) ? Address.ToString() : Hostname)}:{Port}";
+        }
     }
 }
