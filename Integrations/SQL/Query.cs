@@ -1,8 +1,9 @@
 using System.Collections.Generic;
 using System.Linq;
+
 using Swordfish.Library.Extensions;
 
-namespace Swordfish.Library.Integrations.SQL
+namespace Swordfish.Integrations.SQL
 {
     public class Query
     {
@@ -21,15 +22,15 @@ namespace Swordfish.Library.Integrations.SQL
 
         private Query AppendParameter(string value)
         {
-            Entries[Entries.Count-1] = Entries[Entries.Count-1] + value;
+            Entries[Entries.Count - 1] = Entries[Entries.Count - 1] + value;
             return this;
         }
 
 
         public bool Execute() => Database.Put(this);
-        
+
         public QueryResult GetResult() => Database.Get(this);
-        
+
         public bool HasResult() => Database.Get(this).Exists();
 
         public QueryResult GetRecord(string table, string column, string value) => Select(column).From(table).Where(column).Equals(value).GetResult();

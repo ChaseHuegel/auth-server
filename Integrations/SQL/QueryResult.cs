@@ -1,6 +1,6 @@
 using System.Data;
 
-namespace Swordfish.Library.Integrations.SQL
+namespace Swordfish.Integrations.SQL
 {
     public class QueryResult
     {

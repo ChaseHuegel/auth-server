@@ -1,8 +1,8 @@
-using System.Data;
 using System;
+using System.Data;
 using System.Data.SqlClient;
 
-namespace Swordfish.Library.Integrations.SQL
+namespace Swordfish.Integrations.SQL
 {
     public static class Database
     {
@@ -10,7 +10,8 @@ namespace Swordfish.Library.Integrations.SQL
 
         public static Query Query(string name, string address, int port, int timeout)
         {
-            return new Query {
+            return new Query
+            {
                 Name = name,
                 Address = address,
                 Port = port,
@@ -20,8 +21,9 @@ namespace Swordfish.Library.Integrations.SQL
 
         public static bool Put(Query query)
         {
-            try {
-                using (SqlConnection connection = new SqlConnection(String.Format(ConnectionString, query.Address, query.Port, query.Name, query.Timeout)))
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(string.Format(ConnectionString, query.Address, query.Port, query.Name, query.Timeout)))
                 {
                     connection.Open();
                     SqlCommand cmd = new SqlCommand(query.ToString(), connection);
@@ -40,8 +42,9 @@ namespace Swordfish.Library.Integrations.SQL
 
         public static QueryResult Get(Query query)
         {
-            try {
-                using (SqlConnection connection = new SqlConnection(String.Format(ConnectionString, query.Address, query.Port, query.Name, query.Timeout)))
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(string.Format(ConnectionString, query.Address, query.Port, query.Name, query.Timeout)))
                 {
                     connection.Open();
                     SqlCommand cmd = new SqlCommand(query.ToString(), connection);
