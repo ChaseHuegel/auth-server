@@ -10,6 +10,7 @@ namespace Swordfish.Library.Networking
         {
             Console.WriteLine($"Server started on {this.Session.EndPoint}");
 
+#if DEBUG
             this.PacketSent += OnPacketSent;
             this.PacketReceived += OnPacketReceived;
             this.PacketAccepted += OnPacketAccepted;
@@ -18,8 +19,10 @@ namespace Swordfish.Library.Networking
             this.SessionStarted += OnSessionStarted;
             this.SessionEnded += OnSessionEnded;
             this.SessionRejected += OnSessionRejected;
+#endif
         }
 
+#if DEBUG
         public void OnPacketSent(object sender, NetEventArgs e)
         {
             Console.WriteLine($"server->sent {e.PacketID} to {e.EndPoint}");
@@ -59,5 +62,6 @@ namespace Swordfish.Library.Networking
         {
             Console.WriteLine($"server->session [{e.Session}] left from {e.EndPoint}");
         }
+#endif
     }
 }
