@@ -18,7 +18,7 @@ namespace Swordfish.Library.Integrations.SQL
             };
         }
 
-        public static QueryResult Put(Query query)
+        public static bool Put(Query query)
         {
             try {
                 using (SqlConnection connection = new SqlConnection(String.Format(ConnectionString, query.Address, query.Port, query.Name, query.Timeout)))
@@ -28,13 +28,13 @@ namespace Swordfish.Library.Integrations.SQL
                     cmd.CommandTimeout = query.Timeout;
                     cmd.ExecuteNonQuery();
 
-                    return new QueryResult(null);
+                    return true;
                 }
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Caught exception executing an SQL query! {ex}");
-                return new QueryResult(null);
+                return false;
             }
         }
 

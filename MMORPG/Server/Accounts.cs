@@ -20,15 +20,8 @@ namespace Swordfish.MMORPG.Server
             
             if (!username.IsAlphaNumeric())
                 flags = RegisterFlags.UsernameInvalidFormat;
-            
-            bool taken = Database.Query("mmorpg", "127.0.0.1", 1433, 5)
-                        .Select("username")
-                        .From("registry")
-                        .Where("username")
-                        .Equals(username)
-                        .HasResult();
 
-            if (taken) 
+            if (VerifyUsername(username)) 
                 flags = RegisterFlags.UsernameTaken;
 
             return flags;
@@ -62,17 +55,22 @@ namespace Swordfish.MMORPG.Server
             if (!email.Without('.', '@').IsAlphaNumeric())
                 return RegisterFlags.EmailInvalidFormat;
 
-            bool taken = Database.Query("mmorpg", "127.0.0.1", 1433, 5)
-                        .Select("email")
-                        .From("registry")
-                        .Where("email")
-                        .Equals(email)
-                        .HasResult();
-
-            if (taken)
+            if (VerifyEmail(email))
                 return RegisterFlags.EmailTaken;
 
             return RegisterFlags.None;
+        }
+
+        public static bool VerifyUsername(string username)
+        {
+            return Database.Query("mmorpg", "127.0.0.1", 1433, 5)
+                .GetRecord("registry", "username", username).Exists();
+        }
+
+        public static bool VerifyEmail(string email)
+        {
+            return Database.Query("mmorpg", "127.0.0.1", 1433, 5)
+                .GetRecord("registry", "email", email).Exists();
         }
 
         public static void Register(string username, string password, string email)

@@ -64,20 +64,18 @@ namespace Swordfish.Library.Extensions
 
         public static string Without(this string value, params char[] without)
         {
-            string modifiedString = value;
             foreach (char entry in without)
-                String.Join(string.Empty, value.Split(entry));
+                value = String.Join(string.Empty, value.Split(entry));
             
-            return modifiedString;
+            return value;
         }
 
         public static string Without(this string value, params string[] without)
         {
-            string modifiedString = value;
             foreach (string entry in without)
-                String.Join(string.Empty, value.Split(entry));
+                value = String.Join(string.Empty, value.Split(entry));
             
-            return modifiedString;
+            return value;
         }
     }
 }

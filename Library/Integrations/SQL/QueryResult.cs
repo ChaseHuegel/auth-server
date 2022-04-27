@@ -13,7 +13,7 @@ namespace Swordfish.Library.Integrations.SQL
 
         public bool Exists()
         {
-            return Table?.IsInitialized ?? false;
+            return Table.Rows.Count > 0;
         }
     }
 }

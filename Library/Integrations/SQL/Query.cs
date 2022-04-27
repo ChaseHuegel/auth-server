@@ -25,11 +25,16 @@ namespace Swordfish.Library.Integrations.SQL
             return this;
         }
 
-        public QueryResult Execute() => Database.Put(this);
-        
-        public QueryResult Result() => Database.Get(this);
 
-        public bool HasResult() => Database.Get(this).Table.Rows.Count > 0;
+        public bool Execute() => Database.Put(this);
+        
+        public QueryResult GetResult() => Database.Get(this);
+        
+        public bool HasResult() => Database.Get(this).Exists();
+
+        public QueryResult GetRecord(string table, string column, string value) => Select(column).From(table).Where(column).Equals(value).GetResult();
+
+        public bool RecordExists(string table, string column, string value) => Select(column).From(table).Where(column).Equals(value).HasResult();
 
         public Query Select(string value) => AddSimpleParameter($"SELECT {value}");
 
