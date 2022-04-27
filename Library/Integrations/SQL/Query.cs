@@ -34,6 +34,8 @@ namespace Swordfish.Library.Integrations.SQL
 
         public QueryResult GetRecord(string table, string column, string value) => Select(column).From(table).Where(column).Equals(value).GetResult();
 
+        public QueryResult GetRecord(string table, string selectColumn, string whereColumn, string value) => Select(selectColumn).From(table).Where(whereColumn).Equals(value).GetResult();
+
         public bool RecordExists(string table, string column, string value) => Select(column).From(table).Where(column).Equals(value).HasResult();
 
         public Query Select(string value) => AddSimpleParameter($"SELECT {value}");

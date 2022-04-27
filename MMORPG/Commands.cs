@@ -40,6 +40,14 @@ namespace Swordfish.MMORPG
 
                     Heartbeat.Client.Send(register);
                     break;
+                case "login":
+                    LoginPacket login = new LoginPacket {
+                        Username = arguments[1],
+                        Password = arguments[2]
+                    };
+
+                    Heartbeat.Client.Send(login);
+                    break;
             }
         }
     }

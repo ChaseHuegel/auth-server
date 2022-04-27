@@ -73,6 +73,23 @@ namespace Swordfish.MMORPG.Server
                 .GetRecord("registry", "email", email).Exists();
         }
 
+        public static bool VerifyPassword(string username, string password)
+        {
+            QueryResult record = Database.Query("mmorpg", "127.0.0.1", 1433, 5)
+                .GetRecord("registry", "hash,salt", "username", username);
+            
+            if (!record.Exists())
+                return false;
+
+            string hashRaw = record.Table.Rows[0][0].ToString();
+            string saltRaw = record.Table.Rows[0][1].ToString();
+            byte[] hash = Convert.FromBase64String(hashRaw);
+            byte[] salt = Convert.FromBase64String(saltRaw);
+
+            byte[] saltedPassword = Security.SaltedHash(Encoding.ASCII.GetBytes(password), salt);
+            return saltedPassword.SequenceEqual(hash);
+        }
+
         public static void Register(string username, string password, string email)
         {
             byte[] salt = Security.Salt(16);
