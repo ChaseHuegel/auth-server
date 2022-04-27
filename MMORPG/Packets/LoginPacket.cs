@@ -1,17 +1,9 @@
-using System.Text;
 using System;
-using Swordfish.Library.Extensions;
-using Swordfish.Library.Integrations.SQL;
+
 using Swordfish.Library.Networking;
 using Swordfish.Library.Networking.Attributes;
 using Swordfish.Library.Networking.Interfaces;
-using Swordfish.Library.Util;
 using Swordfish.MMORPG.Enums;
-
-using NetServer = Swordfish.Library.Networking.NetServer;
-using System.Linq;
-using System.Data.SqlClient;
-using System.Data;
 using Swordfish.MMORPG.Server;
 
 namespace Swordfish.MMORPG.Packets

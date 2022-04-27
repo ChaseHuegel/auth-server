@@ -2,8 +2,8 @@ using System;
 using System.Linq;
 using System.Text;
 
+using Swordfish.Integrations.SQL;
 using Swordfish.Library.Extensions;
-using Swordfish.Library.Integrations.SQL;
 using Swordfish.Library.Util;
 using Swordfish.MMORPG.Enums;
 
