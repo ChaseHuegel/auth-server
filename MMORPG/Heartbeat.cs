@@ -1,12 +1,11 @@
 using System;
 
-using MMORPG.Client;
-using MMORPG.Server;
-
 using Swordfish.Library.Networking;
+using Swordfish.MMORPG.Client;
+using Swordfish.MMORPG.Server;
 using Swordfish.Threading;
 
-namespace MMORPG
+namespace Swordfish.MMORPG
 {
     public class Heartbeat
     {

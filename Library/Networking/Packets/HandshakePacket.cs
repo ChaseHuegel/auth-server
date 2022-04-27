@@ -21,7 +21,7 @@ namespace Swordfish.Library.Networking.Packets
         [PacketHandler]
         public static void OnHandshakeReceived(NetController net, HandshakePacket packet, NetEventArgs e)
         {
-            if (net is Client)
+            if (net is NetClient)
             {
                 if (net.Session.ID == NetSession.LocalOrUnassigned && net.TryAddSession(e.EndPoint, packet.ServerID, out NetSession serverSession))
                 {

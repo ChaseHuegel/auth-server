@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 
 namespace Swordfish.Library.Extensions
 {
@@ -42,6 +43,11 @@ namespace Swordfish.Library.Extensions
             return value.Insert(0, prepend);
         }
 
+        public static string Envelope(this string value, string envelope)
+        {
+            return value.Append(envelope).Prepend(envelope);
+        }
+
         public static int ToSeed(this string value)
         {
             int seed = value.Length;
@@ -49,6 +55,29 @@ namespace Swordfish.Library.Extensions
                 seed = ((seed << 5) + seed) ^ c;
             
             return seed;
+        }
+
+        public static bool IsAlphaNumeric(this string value)
+        {
+            return value.All(c => Char.IsLetterOrDigit(c));
+        }
+
+        public static string Without(this string value, params char[] without)
+        {
+            string modifiedString = value;
+            foreach (char entry in without)
+                String.Join(string.Empty, value.Split(entry));
+            
+            return modifiedString;
+        }
+
+        public static string Without(this string value, params string[] without)
+        {
+            string modifiedString = value;
+            foreach (string entry in without)
+                String.Join(string.Empty, value.Split(entry));
+            
+            return modifiedString;
         }
     }
 }

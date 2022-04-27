@@ -1,8 +1,9 @@
 using System;
 using System.Linq;
+
 using Swordfish.MMORPG.Packets;
 
-namespace MMORPG
+namespace Swordfish.MMORPG
 {
     public static class Commands
     {
@@ -29,6 +30,15 @@ namespace MMORPG
                     };
 
                     Heartbeat.Client.Send(chat);
+                    break;
+                case "register":
+                    RegisterPacket register = new RegisterPacket {
+                        Username = arguments[1],
+                        Email = arguments[2],
+                        Password = arguments[3]
+                    };
+
+                    Heartbeat.Client.Send(register);
                     break;
             }
         }

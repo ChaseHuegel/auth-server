@@ -73,7 +73,7 @@ namespace Swordfish.Library.Networking
                 {
                     if (typeof(ISerializedPacket).IsAssignableFrom(type))
                     {
-                        int id = packetAttribute.PacketID ?? type.FullName.ToSeed();
+                        ushort id = (ushort)(packetAttribute.PacketID ?? type.FullName.ToSeed());
                         PacketDefinition definition = new PacketDefinition {
                             ID = id,
                             Type = type,

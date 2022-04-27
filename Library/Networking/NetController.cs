@@ -243,8 +243,13 @@ namespace Swordfish.Library.Networking
             EndPoint.Address = address;
             EndPoint.Port = port;
 
+            Packet packet = buffer;
+            int sessionID = packet.ReadInt();
+            int packetID = packet.ReadInt();
+
             NetEventArgs netEventArgs = new NetEventArgs {
-                Packet = buffer,
+                Packet = packet,
+                PacketID = packetID,
                 EndPoint = EndPoint
             };
 
@@ -254,8 +259,13 @@ namespace Swordfish.Library.Networking
         public void Send(byte[] buffer, string hostname, int port)
         {
             IPEndPoint endPoint = new IPEndPoint(NetUtils.GetHostAddress(hostname), port);
+            Packet packet = buffer;
+            int sessionID = packet.ReadInt();
+            int packetID = packet.ReadInt();
+
             NetEventArgs netEventArgs = new NetEventArgs {
-                Packet = buffer,
+                Packet = packet,
+                PacketID = packetID,
                 EndPoint = endPoint
             };
 

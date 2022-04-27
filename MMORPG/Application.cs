@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MMORPG
+namespace Swordfish.MMORPG
 {
     public class Application
     {
@@ -10,7 +10,8 @@ namespace MMORPG
 
         static void Main(string[] args)
         {
-            try {
+            try
+            {
                 heartbeat.Initialize();
 
                 while (!stop)

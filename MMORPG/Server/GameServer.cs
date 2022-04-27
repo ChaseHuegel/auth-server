@@ -1,8 +1,8 @@
 using Swordfish.Library.Networking;
 
-using NetServer = Swordfish.Library.Networking.Server;
+using NetServer = Swordfish.Library.Networking.NetServer;
 
-namespace MMORPG.Server
+namespace Swordfish.MMORPG.Server
 {
     public class GameServer : NetServer
     {

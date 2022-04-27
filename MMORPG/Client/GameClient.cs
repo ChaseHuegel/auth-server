@@ -1,14 +1,15 @@
-using MMORPG.Server;
 using Swordfish.Library.Networking;
 using Swordfish.Library.Networking.Packets;
+using Swordfish.MMORPG.Server;
 
-using NetClient = Swordfish.Library.Networking.Client;
+using NetClient = Swordfish.Library.Networking.NetClient;
 
-namespace MMORPG.Client
+namespace Swordfish.MMORPG.Client
 {
     public class GameClient : NetClient
     {
-        public static Host Host = new Host {
+        public static Host Host = new Host
+        {
             Hostname = "localhost",
             Port = GameServer.PORT
         };

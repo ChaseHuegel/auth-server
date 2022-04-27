@@ -1,7 +1,10 @@
 using System;
+
 using Swordfish.Library.Networking;
 using Swordfish.Library.Networking.Attributes;
 using Swordfish.Library.Networking.Interfaces;
+
+using NetServer = Swordfish.Library.Networking.NetServer;
 
 namespace Swordfish.MMORPG.Packets
 {
@@ -15,7 +18,7 @@ namespace Swordfish.MMORPG.Packets
         [PacketHandler]
         public static void OnChatReceived(NetController net, ChatPacket packet, NetEventArgs e)
         {
-            if (net is Server)
+            if (net is NetServer)
             {
                 //  The server has authority over identifying the sender
                 packet.Sender = e.Session.ID;
