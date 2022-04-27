@@ -1,17 +1,15 @@
 using Swordfish.Library.Networking;
 
-using NetServer = Swordfish.Library.Networking.NetServer;
-
 namespace Swordfish.MMORPG.Server
 {
     public class GameServer : NetServer
     {
-        public const int PORT = 42420;
-        public const int MAX_PLAYERS = 300;
+        private static ServerConfig s_Config;
+        public static ServerConfig Config => s_Config ?? (s_Config = Library.Util.Config.Load<ServerConfig>("config/server.toml"));
 
-        public GameServer() : base(PORT)
+        public GameServer() : base(Config.Connection.Port)
         {
-            MaxSessions = MAX_PLAYERS;
+            MaxSessions = Config.Connection.MaxPlayers;
         }
     }
 }

@@ -1,21 +1,14 @@
 using Swordfish.Library.Networking;
 using Swordfish.Library.Networking.Packets;
-using Swordfish.MMORPG.Server;
-
-using NetClient = Swordfish.Library.Networking.NetClient;
 
 namespace Swordfish.MMORPG.Client
 {
     public class GameClient : NetClient
     {
-        public static Host Host = new Host
-        {
-            Hostname = "localhost",
-            Port = GameServer.PORT
-        };
+        private static ClientConfig s_Config;
+        public static ClientConfig Config => s_Config ?? (s_Config = Library.Util.Config.Load<ClientConfig>("config/client.toml"));
 
-        public GameClient() : base(Host)
-        {
+        public GameClient() : base(Config.Connection.Host) {
             Send(new HandshakePacket());
         }
     }
