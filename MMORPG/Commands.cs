@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 using Swordfish.MMORPG.Packets;
@@ -10,7 +11,9 @@ namespace Swordfish.MMORPG
         public static void Read()
         {
             string input = Console.ReadLine();
-            string[] arguments = input.Split(' ');
+            List<string> arguments = input.Split(' ').ToList();
+            while (arguments.Count < 10)
+                arguments.Add(string.Empty);
 
             switch (arguments[0].ToLower())
             {
