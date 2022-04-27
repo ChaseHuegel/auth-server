@@ -25,28 +25,35 @@ namespace Swordfish.MMORPG.Packets
 
         public string Email;
 
+        //  TODO this should be RegisterFlags when packets support enums
         public int Flags;
 
-        [PacketHandler]
-        public static void OnRegisterReceived(NetController net, RegisterPacket packet, NetEventArgs e)
+        [ServerPacketHandler]
+        public static void OnRegisterServer(NetServer server, RegisterPacket packet, NetEventArgs e)
         {
-            RegisterFlags flags = (RegisterFlags) packet.Flags;
-
-            if (net is NetServer)
-            {
-                flags = Accounts.ValidateUsername(packet.Username) | Accounts.ValidatePassword(packet.Password) | Accounts.ValidateEmail(packet.Email);
-
-                if (flags == RegisterFlags.None)
-                    Accounts.Register(packet.Username, packet.Password, packet.Email);
-
-                packet.Flags = (int)flags;
-                net.Send(packet, e.EndPoint);
-            }
+            RegisterFlags flags = Accounts.ValidateUsername(packet.Username) | Accounts.ValidatePassword(packet.Password) | Accounts.ValidateEmail(packet.Email);
 
             if (flags == RegisterFlags.None)
-                Console.WriteLine($"@{e.EndPoint} Register account [{packet.Username}, {packet.Email}] successful!");
+                Accounts.Register(packet.Username, packet.Password, packet.Email);
+
+            packet.Flags = (int)flags;
+            server.Send(packet, e.EndPoint);
+
+            if (flags == RegisterFlags.None)
+                Console.WriteLine($"[{e.EndPoint}] registered account [{packet.Username}, {packet.Email}]");
             else
-                Console.WriteLine($"@{e.EndPoint} Register account failed [{packet.Username}, {packet.Email}]: {flags}");
+                Console.WriteLine($"[{e.EndPoint}] tried to register account [{packet.Username}, {packet.Email}]: {flags}");
+        }
+
+        [ClientPacketHandler]
+        public static void OnRegisterClient(NetClient client, RegisterPacket packet, NetEventArgs e)
+        {
+            RegisterFlags flags = (RegisterFlags)packet.Flags;
+
+            if (flags == RegisterFlags.None)
+                Console.WriteLine($"Account [{packet.Username}, {packet.Email}] registered!");
+            else
+                Console.WriteLine($"Failed to register account [{packet.Username}, {packet.Email}]: {flags}");
         }
     }
 }

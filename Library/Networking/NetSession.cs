@@ -16,7 +16,7 @@ namespace Swordfish.Library.Networking
 
         public override string ToString()
         {
-            return $"{ID} @ {EndPoint}";
+            return $"{ID}/{EndPoint}";
         }
 
         public override bool Equals(object obj)

@@ -186,8 +186,21 @@ namespace Swordfish.Library.Networking
 
                     //  Deserialize the packet and invoke it's handlers
                     object deserializedPacket = (ISerializedPacket) packet.Deserialize(packetDefinition.Type);
-                    foreach (MethodInfo handler in packetDefinition.Handlers)
-                        handler.Invoke(null, new object[] { this, deserializedPacket, netEventArgs });
+                    foreach (PacketHandler handler in packetDefinition.Handlers)
+                    {
+                        switch (handler.Type)
+                        {
+                            case PacketHandlerType.SERVER:
+                                if (this is NetServer) handler.Method.Invoke(null, new object[] { this, deserializedPacket, netEventArgs });
+                                break;
+                            case PacketHandlerType.CLIENT:
+                                if (this is NetClient) handler.Method.Invoke(null, new object[] { this, deserializedPacket, netEventArgs });
+                                break;
+                            case PacketHandlerType.AGNOSTIC:
+                                handler.Method.Invoke(null, new object[] { this, deserializedPacket, netEventArgs });
+                                break;
+                        }
+                    }
                 }
                 else
                 {
