@@ -51,6 +51,9 @@ namespace Swordfish.MMORPG
 
                     Heartbeat.Client.Send(login);
                     break;
+                case "join":
+                    Heartbeat.Client.Handshake();
+                    break;
             }
         }
     }

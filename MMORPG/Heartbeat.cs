@@ -2,6 +2,8 @@ using System;
 
 using Swordfish.Library.Networking;
 using Swordfish.MMORPG.Client;
+using Swordfish.MMORPG.Data;
+using Swordfish.MMORPG.Packets;
 using Swordfish.MMORPG.Server;
 using Swordfish.Threading;
 
@@ -19,9 +21,9 @@ namespace Swordfish.MMORPG
         {
             thread = new ThreadWorker(Tick, false, "Heartbeat");
             thread.TargetTickRate = TICK_RATE;
-            thread.Start();
 
             Start();
+            thread.Start();
         }
 
         public void Start()
@@ -38,6 +40,21 @@ namespace Swordfish.MMORPG
 
         public void Tick(float deltaTime)
         {
+            foreach (LivingEntity character in Server.Characters.Values)
+            {
+                Server.Broadcast(new EntityPacket {
+                    ID = character.ID,
+                    X = character.X,
+                    Y = character.Y,
+                    Z = character.Z,
+                    Heading = character.Heading,
+                    Speed = character.Speed,
+                    Direction = character.Direction,
+                    Jumped = character.Jumped,
+                    Moving = character.Moving
+                });
+            }
+
             UpdateTitle();
         }
 

@@ -1,5 +1,7 @@
+using System.Collections.Concurrent;
+
 using Swordfish.Library.Networking;
-using Swordfish.Library.Networking.Packets;
+using Swordfish.MMORPG.Data;
 
 namespace Swordfish.MMORPG.Client
 {
@@ -8,8 +10,13 @@ namespace Swordfish.MMORPG.Client
         private static ClientConfig s_Config;
         public static ClientConfig Config => s_Config ?? (s_Config = Library.Util.Config.Load<ClientConfig>("config/client.toml"));
 
+        public static GameClient Instance;
+
+        public ConcurrentDictionary<int, LivingEntity> Characters;
+
         public GameClient() : base(Config.Connection.Host) {
-            Send(new HandshakePacket());
+            Instance = this;
+            Characters = new ConcurrentDictionary<int, LivingEntity>();
         }
     }
 }

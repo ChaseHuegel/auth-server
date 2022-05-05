@@ -28,14 +28,21 @@ namespace Swordfish.MMORPG.Packets
 
             if (!Accounts.VerifyPassword(packet.Username, packet.Password))
                 flags |= AccountFlags.PasswordIncorrect;
+            
+            if (flags == AccountFlags.None && !GameServer.Instance.Logins.TryAdd(e.EndPoint, packet.Username))
+                flags |= AccountFlags.AlreadyLoggedIn;
 
             packet.Flags = (int)flags;
             server.Send(packet, e.EndPoint);
 
             if (flags == AccountFlags.None)
+            {
                 Console.WriteLine($"[{e.EndPoint}] logged into account [{packet.Username}]");
+            }
             else
+            {
                 Console.WriteLine($"[{e.EndPoint}] tried to login to account [{packet.Username}]: {flags}");
+            }
         }
 
         [ClientPacketHandler]
@@ -44,9 +51,13 @@ namespace Swordfish.MMORPG.Packets
             AccountFlags flags = (AccountFlags)packet.Flags;
 
             if (flags == AccountFlags.None)
+            {
                 Console.WriteLine($"Logged into account [{packet.Username}]");
+            }
             else
+            {
                 Console.WriteLine($"Failed to login to account [{packet.Username}]: {flags}");
+            }
         }
     }
 }

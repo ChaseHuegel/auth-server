@@ -208,7 +208,7 @@ namespace Swordfish.Library.Networking
         public bool ReadBool()
         {
             readIndex += 1;
-            return BitConverter.ToBoolean( GetBytes(readIndex-1, 4), 0 );
+            return BitConverter.ToBoolean( GetBytes(readIndex-1, 1), 0 );
         }
     }
 }

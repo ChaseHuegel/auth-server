@@ -9,5 +9,6 @@ namespace Swordfish.MMORPG.Enums
         UsernameIncorrect = 1,
         PasswordIncorrect = 2,
         EmailIncorrect = 4,
+        AlreadyLoggedIn = 8
     }
 }
