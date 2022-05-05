@@ -25,7 +25,8 @@ namespace Swordfish.MMORPG.Server
             Instance = this;
             MaxSessions = Config.Connection.MaxPlayers;
             
-            HandshakePacket.SetValidationCallback(ValidateHandshake);
+            HandshakePacket.ValidateHandshakeCallback = ValidateHandshake;
+            HandshakePacket.ValidationSignature = "Ekahsdnah";
         }
 
         public bool ValidateHandshake(EndPoint endPoint)

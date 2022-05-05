@@ -13,15 +13,11 @@ namespace Swordfish.Library.Networking.Packets
 
         public int ServerID;
 
-        public HandshakePacket(int id)
-        {
-            ClientID = id;
-            ServerID = NetSession.LocalOrUnassigned;
-        }
+        public string Signature;
 
-        private static Func<EndPoint, bool> ValidateHandshakeCallback;
-        
-        public static void SetValidationCallback(Func<EndPoint, bool> callback) => ValidateHandshakeCallback = callback;
+        public static string ValidationSignature { get; set; }
+
+        public static Func<EndPoint, bool> ValidateHandshakeCallback { get; set; }
 
         [ClientPacketHandler]
         public static void ClientHandshakeHandler(NetController net, HandshakePacket packet, NetEventArgs e)
@@ -42,9 +38,9 @@ namespace Swordfish.Library.Networking.Packets
         [ServerPacketHandler]
         public static void ServerHandshakeHandler(NetController net, HandshakePacket packet, NetEventArgs e)
         {
-            //  Attempt to validate the handshake.
-            //  If the callback is undefined, all handshakes are considered valid.
-            if (ValidateHandshakeCallback?.Invoke(e.EndPoint) ?? true)
+            //  Validate the handshake.
+            //  Use the callback if available, and confirm signatures match
+            if (packet.Signature == ValidationSignature && (ValidateHandshakeCallback?.Invoke(e.EndPoint) ?? true))
             {
                 net.TryAddSession(e.EndPoint, out NetSession newSession);
 
@@ -52,7 +48,8 @@ namespace Swordfish.Library.Networking.Packets
 
                 HandshakePacket handshake = new HandshakePacket() {
                     ClientID = newSession.ID,
-                    ServerID = net.Session.ID
+                    ServerID = net.Session.ID,
+                    Signature = ValidationSignature
                 };
 
                 net.Send(handshake, e.EndPoint);

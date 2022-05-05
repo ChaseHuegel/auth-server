@@ -1,6 +1,7 @@
 using System.Collections.Concurrent;
 
 using Swordfish.Library.Networking;
+using Swordfish.Library.Networking.Packets;
 using Swordfish.MMORPG.Data;
 
 namespace Swordfish.MMORPG.Client
@@ -17,6 +18,8 @@ namespace Swordfish.MMORPG.Client
         public GameClient() : base(Config.Connection.Host) {
             Instance = this;
             Characters = new ConcurrentDictionary<int, LivingEntity>();
+            
+            HandshakePacket.ValidationSignature = "Ekahsdnah";
         }
     }
 }

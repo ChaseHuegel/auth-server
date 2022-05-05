@@ -114,9 +114,6 @@ namespace Swordfish.Library.Networking
 
         public Packet Serialize(object obj)
         {
-            foreach (PropertyInfo property in obj.GetType().GetProperties())
-                Write(property.GetValue(obj) ?? property.PropertyType.GetDefault());
-
             foreach (FieldInfo field in obj.GetType().GetFields())
                 Write(field.GetValue(obj) ?? field.FieldType.GetDefault());
             
@@ -138,9 +135,6 @@ namespace Swordfish.Library.Networking
         public object Deserialize(Type type)
         {
             object deserializedPacket = Activator.CreateInstance(type);
-
-            foreach (PropertyInfo property in type.GetProperties())
-                property.SetValue(deserializedPacket, Read(property.PropertyType));
             
             foreach (FieldInfo field in type.GetFields())
                 field.SetValue(deserializedPacket, Read(field.FieldType));

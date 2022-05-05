@@ -20,7 +20,9 @@ namespace Swordfish.Library.Networking
 
         public void Handshake()
         {
-            Send(new HandshakePacket());
+            Send(new HandshakePacket {
+                Signature = HandshakePacket.ValidationSignature
+            });
         }
 
         public virtual void OnPacketSent(object sender, NetEventArgs e)
