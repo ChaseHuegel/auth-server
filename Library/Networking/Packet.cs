@@ -2,7 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
+
 using Swordfish.Library.Extensions;
+using Swordfish.Library.Types;
+using Swordfish.Library.Util;
 
 namespace Swordfish.Library.Networking
 {
@@ -102,10 +105,11 @@ namespace Swordfish.Library.Networking
         /// <exception cref="System.ArgumentException"></exception>
         public Packet Write(object value)
         {
-            if      (value is string)   WriteString(value);
-            else if (value is int)      WriteInt(value);
-            else if (value is float)    WriteFloat(value);
-            else if (value is bool)     WriteBool(value);
+            if      (value is string)       WriteString(value);
+            else if (value is int)          WriteInt(value);
+            else if (value is float)        WriteFloat(value);
+            else if (value is bool)         WriteBool(value);
+            else if (value is MultiBool)    WriteMultiBool(value);
             else if (value == null)     Append(BitConverter.GetBytes(0));
             else Console.WriteLine($"Unsupported type [{value?.GetType()}] passed to Packet.Write()");
 
@@ -145,6 +149,7 @@ namespace Swordfish.Library.Networking
         private void WriteInt(object value) => Append( BitConverter.GetBytes((int)value) );
         private void WriteFloat(object value) => Append( BitConverter.GetBytes((float)value) );
         private void WriteBool(object value) => Append( BitConverter.GetBytes((bool)value) );
+        private void WriteMultiBool(object value) => Append( ByteConverter.GetBytes((MultiBool)value) );
 
         private void WriteString(object value)
         {
@@ -161,10 +166,11 @@ namespace Swordfish.Library.Networking
 
         public object Read(Type type)
         {
-            if      (type == typeof(string))   return ReadString();
-            else if (type == typeof(int))      return ReadInt();
-            else if (type == typeof(float))    return ReadFloat();
-            else if (type == typeof(bool))     return ReadBool();
+            if      (type == typeof(string))    return ReadString();
+            else if (type == typeof(int))       return ReadInt();
+            else if (type == typeof(float))     return ReadFloat();
+            else if (type == typeof(bool))      return ReadBool();
+            else if (type == typeof(MultiBool)) return ReadMultiBool();
 
             return type.GetDefault();
             throw new ArgumentOutOfRangeException($"{type} is unsupported by Packet.Read!");
@@ -203,6 +209,12 @@ namespace Swordfish.Library.Networking
         {
             readIndex += 1;
             return BitConverter.ToBoolean( GetBytes(readIndex-1, 1), 0 );
+        }
+
+        public MultiBool ReadMultiBool()
+        {
+            readIndex += 1;
+            return ByteConverter.ToMultiBool( GetBytes(readIndex-1, 1), 0 );
         }
     }
 }

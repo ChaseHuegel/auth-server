@@ -50,8 +50,10 @@ namespace Swordfish.MMORPG
                     Heading = character.Heading,
                     Speed = character.Speed,
                     Direction = character.Direction,
-                    Jumped = character.Jumped,
-                    Moving = character.Moving
+                    State = {
+                        [0] = character.Jumped,
+                        [1] = character.Moving
+                    }
                 });
             }
 

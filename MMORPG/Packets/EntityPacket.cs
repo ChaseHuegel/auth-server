@@ -1,6 +1,7 @@
 using Swordfish.Library.Networking;
 using Swordfish.Library.Networking.Attributes;
 using Swordfish.Library.Networking.Interfaces;
+using Swordfish.Library.Types;
 using Swordfish.MMORPG.Client;
 using Swordfish.MMORPG.Data;
 using Swordfish.MMORPG.Server;
@@ -17,8 +18,7 @@ namespace Swordfish.MMORPG.Packets
         public float Heading;
         public float Speed;
         public float Direction;
-        public bool Jumped;
-        public bool Moving;
+        public MultiBool State;
 
         [ServerPacketHandler]
         public static void OnEntitySnapshotServer(NetServer server, EntityPacket packet, NetEventArgs e)
@@ -32,8 +32,8 @@ namespace Swordfish.MMORPG.Packets
                 character.Heading = packet.Heading;
                 character.Speed = packet.Speed;
                 character.Direction = packet.Direction;
-                character.Jumped = packet.Jumped;
-                character.Moving = packet.Moving;
+                character.Jumped = packet.State[0];
+                character.Moving = packet.State[1];
             }
             else
             {
@@ -45,8 +45,8 @@ namespace Swordfish.MMORPG.Packets
                     Heading = packet.Heading,
                     Speed = packet.Speed,
                     Direction = packet.Direction,
-                    Jumped = packet.Jumped,
-                    Moving = packet.Moving
+                    Jumped = packet.State[0],
+                    Moving = packet.State[1]
                 };
 
                 GameServer.Instance.Characters.TryAdd(packet.ID, character);
@@ -65,8 +65,8 @@ namespace Swordfish.MMORPG.Packets
                 character.Heading = packet.Heading;
                 character.Speed = packet.Speed;
                 character.Direction = packet.Direction;
-                character.Jumped = packet.Jumped;
-                character.Moving = packet.Moving;
+                character.Jumped = packet.State[0];
+                character.Moving = packet.State[1];
             }
             else
             {
@@ -78,8 +78,8 @@ namespace Swordfish.MMORPG.Packets
                     Heading = packet.Heading,
                     Speed = packet.Speed,
                     Direction = packet.Direction,
-                    Jumped = packet.Jumped,
-                    Moving = packet.Moving
+                    Jumped = packet.State[0],
+                    Moving = packet.State[1]
                 };
 
                 GameClient.Instance.Characters.TryAdd(packet.ID, character);
