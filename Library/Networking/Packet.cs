@@ -110,7 +110,7 @@ namespace Swordfish.Library.Networking
             else if (value is float)        WriteFloat(value);
             else if (value is bool)         WriteBool(value);
             else if (value is MultiBool)    WriteMultiBool(value);
-            else if (value == null)     Append(BitConverter.GetBytes(0));
+            else if (value == null)         Append(BitConverter.GetBytes(0));
             else Console.WriteLine($"Unsupported type [{value?.GetType()}] passed to Packet.Write()");
 
             return this;

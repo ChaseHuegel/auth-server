@@ -6,6 +6,7 @@ using Swordfish.Library.Networking;
 using Swordfish.MMORPG.Data;
 using Swordfish.Library.Networking.Packets;
 using System;
+using Swordfish.MMORPG.Packets;
 
 namespace Swordfish.MMORPG.Server
 {
@@ -40,6 +41,41 @@ namespace Swordfish.MMORPG.Server
                 ID = e.Session.ID
             };
 
+            //  Send a snapshot of the new player to all other players
+            EntityPacket snapshot = new EntityPacket {
+                ID = character.ID,
+                X = character.X,
+                Y = character.Y,
+                Z = character.Z,
+                Heading = character.Heading,
+                Speed = character.Speed,
+                Direction = character.Direction,
+                State = {
+                    [0] = character.Jumped,
+                    [1] = character.Moving
+                }
+            };
+            BroadcastExcept(snapshot, e.Session);
+
+            //  Send a snapshot of all entities to the new player
+            foreach (LivingEntity entity in Characters.Values)
+            {                
+                Broadcast(new EntityPacket {
+                    ID = entity.ID,
+                    X = entity.X,
+                    Y = entity.Y,
+                    Z = entity.Z,
+                    Heading = entity.Heading,
+                    Speed = entity.Speed,
+                    Direction = entity.Direction,
+                    State = {
+                        [0] = entity.Jumped,
+                        [1] = entity.Moving
+                    }
+                });
+            }
+
+            //  Add the new player to the world
             Characters.TryAdd(e.Session.ID, character);
             Console.WriteLine($"[{e.Session}] joined the game world.");
         }

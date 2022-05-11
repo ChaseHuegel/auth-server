@@ -220,7 +220,7 @@ namespace Swordfish.Library.Networking
         {
             netSession = null;
             bool validEndpoint = !ValidateEndPoints || Sessions.TryGetValue(endPoint, out netSession);
-            bool validID = !ValidateIDs || sessionID == netSession.ID;
+            bool validID = !ValidateIDs || sessionID == netSession?.ID;
             return validEndpoint && validID;
         }
 

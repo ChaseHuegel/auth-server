@@ -40,23 +40,6 @@ namespace Swordfish.MMORPG
 
         public void Tick(float deltaTime)
         {
-            foreach (LivingEntity character in Server.Characters.Values)
-            {
-                Server.Broadcast(new EntityPacket {
-                    ID = character.ID,
-                    X = character.X,
-                    Y = character.Y,
-                    Z = character.Z,
-                    Heading = character.Heading,
-                    Speed = character.Speed,
-                    Direction = character.Direction,
-                    State = {
-                        [0] = character.Jumped,
-                        [1] = character.Moving
-                    }
-                });
-            }
-
             UpdateTitle();
         }
 
