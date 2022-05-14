@@ -60,7 +60,7 @@ namespace Swordfish.MMORPG.Server
             //  Send a snapshot of all entities to the new player
             foreach (LivingEntity entity in Characters.Values)
             {                
-                Broadcast(new EntityPacket {
+                Send(new EntityPacket {
                     ID = entity.ID,
                     X = entity.X,
                     Y = entity.Y,
@@ -72,7 +72,7 @@ namespace Swordfish.MMORPG.Server
                         [0] = entity.Jumped,
                         [1] = entity.Moving
                     }
-                });
+                }, e.Session);
             }
 
             //  Add the new player to the world
