@@ -110,6 +110,7 @@ namespace Swordfish.Library.Networking
             else if (value is float)        WriteFloat(value);
             else if (value is bool)         WriteBool(value);
             else if (value is MultiBool)    WriteMultiBool(value);
+            else if (value is string[])     WriteStringArray(value);
             else if (value == null)         Append(BitConverter.GetBytes(0));
             else Console.WriteLine($"Unsupported type [{value?.GetType()}] passed to Packet.Write()");
 
@@ -164,6 +165,19 @@ namespace Swordfish.Library.Networking
             Append(bytes);
         }
 
+        private void WriteStringArray(object value)
+        {
+            string[] strings = (string[])value ?? Array.Empty<string>();
+
+            //  Write an int noting the length of the array in bytes
+            byte[] bytes = BitConverter.GetBytes(strings.Length);
+            Append(bytes);
+
+            //  Write the strings
+            foreach (string s in strings)
+                WriteString(s);
+        }
+
         public object Read(Type type)
         {
             if      (type == typeof(string))    return ReadString();
@@ -171,6 +185,7 @@ namespace Swordfish.Library.Networking
             else if (type == typeof(float))     return ReadFloat();
             else if (type == typeof(bool))      return ReadBool();
             else if (type == typeof(MultiBool)) return ReadMultiBool();
+            else if (type == typeof(string[]))  return ReadStringArray();
 
             return type.GetDefault();
             throw new ArgumentOutOfRangeException($"{type} is unsupported by Packet.Read!");
@@ -215,6 +230,18 @@ namespace Swordfish.Library.Networking
         {
             readIndex += 1;
             return ByteConverter.ToMultiBool( GetBytes(readIndex-1, 1), 0 );
+        }
+
+        public string[] ReadStringArray()
+        {
+            int length = BitConverter.ToInt32( GetBytes(readIndex, 4), 0 );
+            readIndex += 4;
+            
+            string[] strings = new string[length];
+            for (int i = 0; i < length; i++)
+                strings[i] = ReadString();
+
+            return strings;
         }
     }
 }
