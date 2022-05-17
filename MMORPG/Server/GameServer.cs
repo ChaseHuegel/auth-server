@@ -1,3 +1,4 @@
+using System;
 using System.Net;
 using System.Collections.Generic;
 using System.Collections.Concurrent;
@@ -5,7 +6,6 @@ using System.Collections.Concurrent;
 using Swordfish.Library.Networking;
 using Swordfish.MMORPG.Data;
 using Swordfish.Library.Networking.Packets;
-using System;
 using Swordfish.MMORPG.Packets;
 
 namespace Swordfish.MMORPG.Server

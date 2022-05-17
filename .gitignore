@@ -7,5 +7,6 @@ unit-tests/bin/
 unit-tests/obj/
 screenshots/
 config/
+lib/
 
 *.log
